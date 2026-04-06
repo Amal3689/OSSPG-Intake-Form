@@ -1,266 +1,155 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CSE Engagement Request</title>
+  <title>Azure PostgreSQL CSE Request</title>
 
   <style>
     body {
-      font-family: "Segoe UI", Arial;
-      background-color: #f5f7fb;
-      margin: 0;
+      font-family: Arial;
+      background-color: #f4f6f8;
       padding: 40px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .main-container {
-      width: 900px;
-      background: white;
-      padding: 40px;
-      border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    }
-
-    h1 {
-      text-align: center;
-      color: #0078d4;
-      margin-bottom: 30px;
     }
 
     .card {
-      background: #f9fafc;
-      padding: 25px;
+      background: white;
+      padding: 20px;
       border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 25px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #0078d4;
-      margin-bottom: 15px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    label {
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: block;
+      width: 520px;
+      margin-bottom: 20px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      padding: 8px;
+      margin-top: 5px;
       margin-bottom: 15px;
     }
 
-    textarea {
-      height: 100px;
-    }
-
     button {
-      background-color: #0078d4;
+      padding: 10px;
+      background: #0078d4;
       color: white;
       border: none;
-      padding: 10px 18px;
-      border-radius: 6px;
       cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #005fa3;
-    }
-
-    .hidden {
-      display: none;
     }
   </style>
 </head>
 
 <body>
 
-<div class="main-container">
+<h1>Submit a Request</h1>
 
-  <h1>Submit a Request</h1>
+<div class="card">
 
-  <!-- Landing Section -->
-  <div class="card">
+  <h3>Customer Success Engineering</h3>
+  <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
 
-    <div class="section-title">Customer Success Engineering</div>
-    <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
+  <!-- Q1 -->
+  <label>Do you need assistance for unblocking migration?</label>
+  <select id="q1">
+    <option value="">--Select--</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
 
-    <label>Q1. Do you need assistance for unblocking customer migration?</label>
-    <select id="q1">
-      <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
-    </select>
-
-    <label>Q2. Is this a pre-sales or post-sales request?</label>
-    <select id="q2" class="hidden">
-      <option value="">-- Select --</option>
+  <!-- Q2 -->
+  <div id="q2Section" style="display:none;">
+    <label>Is this presales or postsales?</label>
+    <select id="q2">
+      <option value="">--Select--</option>
       <option value="Presales">Presales</option>
       <option value="Postsales">Postsales</option>
     </select>
-
-    <button id="nextBtn" class="hidden">Next</button>
-
   </div>
 
-  <!-- Intake Form -->
-  <div id="formSection" class="hidden">
+  <button id="nextBtn" style="display:none;">Next</button>
+</div>
 
-    <!-- Account Information -->
-    <div class="card">
-      <div class="section-title">Account Information</div>
+<div id="formSection" style="display:none;" class="card">
 
-      <div class="grid">
-        <div>
-          <label>Email</label>
-          <input type="email" id="email">
-        </div>
+  <h2>Account Information</h2>
 
-        <div>
-          <label>Primary Microsoft Contact</label>
-          <input type="text" id="contact">
-        </div>
+  <input type="email" id="email" placeholder="User Email" required>
+  <input type="text" id="contact" placeholder="Primary Microsoft Contact">
+  <input type="text" id="accountName" placeholder="Account Name">
+  <input type="text" id="country" placeholder="Country">
+  <input type="text" id="region" placeholder="Region">
+  <input type="text" id="source" placeholder="Source Platform">
+  <input type="text" id="target" placeholder="Target Platform">
 
-        <div>
-          <label>Account Name</label>
-          <input type="text" id="accountName">
-        </div>
+  <select id="s500">
+    <option value="">S500 Customer?</option>
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
 
-        <div>
-          <label>Country</label>
-          <input type="text" id="country">
-        </div>
+  <h2>Service Request</h2>
 
-        <div>
-          <label>Region</label>
-          <input type="text" id="region">
-        </div>
+  <input type="text" id="requestType" placeholder="Request Type">
+  <textarea id="description" placeholder="Description"></textarea>
+  <textarea id="scenario" placeholder="Customer Scenario"></textarea>
 
-        <div>
-          <label>Source Platform</label>
-          <input type="text" id="source">
-        </div>
-
-        <div>
-          <label>Target Platform</label>
-          <input type="text" id="target">
-        </div>
-
-        <div>
-          <label>S500 Customer</label>
-          <select id="s500">
-            <option value="">-- Select --</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Service Request Details -->
-    <div class="card">
-      <div class="section-title">Service Request Details</div>
-
-      <div class="grid">
-        <div>
-          <label>Request Type</label>
-          <input type="text" id="requestType">
-        </div>
-
-        <div style="grid-column: span 2;">
-          <label>Description</label>
-          <textarea id="description"></textarea>
-        </div>
-
-        <div style="grid-column: span 2;">
-          <label>Customer Scenario</label>
-          <textarea id="scenario"></textarea>
-        </div>
-      </div>
-
-      <button id="submitBtn">Submit</button>
-    </div>
-
-  </div>
-
+  <button id="submitBtn">Submit</button>
 </div>
 
 <script>
-  const q1 = document.getElementById("q1");
-  const q2 = document.getElementById("q2");
-  const nextBtn = document.getElementById("nextBtn");
-  const formSection = document.getElementById("formSection");
 
-  // Show Q2 after Q1
-  q1.addEventListener("change", function () {
-    if (this.value !== "") {
-      q2.classList.remove("hidden");
-    }
-    nextBtn.classList.add("hidden");
-    formSection.classList.add("hidden");
+const q1 = document.getElementById("q1");
+const q2Section = document.getElementById("q2Section");
+const nextBtn = document.getElementById("nextBtn");
+const formSection = document.getElementById("formSection");
+
+// Q1 logic
+q1.addEventListener("change", function () {
+  if (this.value === "Yes") {
+    nextBtn.style.display = "inline";
+    q2Section.style.display = "none";
+  } else if (this.value === "No") {
+    nextBtn.style.display = "none";
+    q2Section.style.display = "block";
+  }
+});
+
+// Show form
+nextBtn.addEventListener("click", function () {
+  formSection.style.display = "block";
+});
+
+// Submit
+document.getElementById("submitBtn").addEventListener("click", async () => {
+
+  const data = {
+    q1: document.getElementById("q1").value,
+    q2: document.getElementById("q2") ? document.getElementById("q2").value : "",
+
+    email: document.getElementById("email").value,
+    contact: document.getElementById("contact").value,
+    accountName: document.getElementById("accountName").value,
+    country: document.getElementById("country").value,
+    region: document.getElementById("region").value,
+    source: document.getElementById("source").value,
+    target: document.getElementById("target").value,
+    s500: document.getElementById("s500").value,
+
+    requestType: document.getElementById("requestType").value,
+    description: document.getElementById("description").value,
+    scenario: document.getElementById("scenario").value
+  };
+
+  console.log("Submitting:", data);
+
+  const response = await fetch("/api/submit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
   });
 
-  // Enable Next when both selected
-  q2.addEventListener("change", function () {
-    if (q1.value && q2.value) {
-      nextBtn.classList.remove("hidden");
-    } else {
-      nextBtn.classList.add("hidden");
-    }
-  });
+  const result = await response.text();
+  alert(result);
+});
 
-  // Show form
-  nextBtn.addEventListener("click", function () {
-    formSection.classList.remove("hidden");
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  });
-
-  // Submit form
-  document.getElementById("submitBtn").addEventListener("click", async () => {
-
-    const payload = {
-      q1: q1.value,
-      q2: q2.value,
-      email: document.getElementById("email").value,
-      contact: document.getElementById("contact").value,
-      accountName: document.getElementById("accountName").value,
-      country: document.getElementById("country").value,
-      region: document.getElementById("region").value,
-      source: document.getElementById("source").value,
-      target: document.getElementById("target").value,
-      s500: document.getElementById("s500").value,
-      requestType: document.getElementById("requestType").value,
-      description: document.getElementById("description").value,
-      scenario: document.getElementById("scenario").value
-    };
-
-    if (!payload.email) {
-      alert("Email is required");
-      return;
-    }
-
-    await fetch("/api/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    alert("Form submitted successfully!");
-  });
 </script>
 
 </body>
