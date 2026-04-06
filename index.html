@@ -8,10 +8,9 @@
       font-family: "Segoe UI", Arial;
       background-color: #f5f7fb;
       margin: 0;
-      height: 100vh;
+      padding: 40px;
       display: flex;
       justify-content: center;
-      align-items: center;
     }
 
     .main-container {
@@ -64,7 +63,6 @@
     }
 
     textarea {
-      grid-column: span 2;
       height: 100px;
     }
 
@@ -93,20 +91,20 @@
 
   <h1>Submit a Request</h1>
 
-  <!-- Landing -->
+  <!-- Landing Section -->
   <div class="card">
 
     <div class="section-title">Customer Success Engineering</div>
     <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
 
-    <label>Q1. Need help unblocking customer migration?</label>
+    <label>Q1. Do you need assistance for unblocking customer migration?</label>
     <select id="q1">
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
 
-    <label>Q2. Pre-sales or Post-sales request?</label>
+    <label>Q2. Is this a pre-sales or post-sales request?</label>
     <select id="q2" class="hidden">
       <option value="">-- Select --</option>
       <option value="Presales">Presales</option>
@@ -117,10 +115,10 @@
 
   </div>
 
-  <!-- Form -->
+  <!-- Intake Form -->
   <div id="formSection" class="hidden">
 
-    <!-- Account Info -->
+    <!-- Account Information -->
     <div class="card">
       <div class="section-title">Account Information</div>
 
@@ -171,7 +169,7 @@
       </div>
     </div>
 
-    <!-- Request Details -->
+    <!-- Service Request Details -->
     <div class="card">
       <div class="section-title">Service Request Details</div>
 
@@ -214,7 +212,7 @@
     formSection.classList.add("hidden");
   });
 
-  // Enable Next only when both selected
+  // Enable Next when both selected
   q2.addEventListener("change", function () {
     if (q1.value && q2.value) {
       nextBtn.classList.remove("hidden");
@@ -223,11 +221,13 @@
     }
   });
 
+  // Show form
   nextBtn.addEventListener("click", function () {
     formSection.classList.remove("hidden");
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   });
 
+  // Submit form
   document.getElementById("submitBtn").addEventListener("click", async () => {
 
     const payload = {
