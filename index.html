@@ -1,47 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Azure PostgreSQL CSE Request</title>
+  <title>CSE Engagement Request</title>
 
   <style>
     body {
-      font-family: Segoe UI, Arial;
-      background-color: #f4f6f8;
+      font-family: "Segoe UI", Arial;
+      background-color: #f5f7fb;
       margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main-container {
+      width: 900px;
+      background: white;
       padding: 40px;
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
 
     h1 {
+      text-align: center;
       color: #0078d4;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     .card {
-      background: white;
+      background: #f9fafc;
       padding: 25px;
-      border-radius: 12px;
-      width: 520px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
       margin-bottom: 25px;
     }
 
-    h2 {
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
       color: #0078d4;
+      margin-bottom: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
     }
 
     input, select, textarea {
       width: 100%;
       padding: 10px;
-      margin-top: 6px;
-      margin-bottom: 15px;
       border-radius: 6px;
       border: 1px solid #ccc;
-      font-size: 14px;
+      margin-bottom: 15px;
     }
 
     textarea {
-      resize: vertical;
-      height: 80px;
+      grid-column: span 2;
+      height: 100px;
     }
 
     button {
@@ -51,142 +75,188 @@
       padding: 10px 18px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 14px;
     }
 
     button:hover {
       background-color: #005fa3;
     }
-  </style>
 
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Submit a Request</h1>
+<div class="main-container">
 
-<!-- Landing Card -->
-<div class="card">
+  <h1>Submit a Request</h1>
 
-  <h3>Customer Success Engineering</h3>
-  <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
-
-  <!-- Q1 -->
-  <label>Do you need assistance for unblocking customer migration to Azure PostgreSQL?</label>
-  <select id="q1">
-    <option value="">-- Select --</option>
-    <option value="Yes">Yes</option>
-    <option value="No">No</option>
-  </select>
-
-  <!-- Q2 -->
-  <div id="q2Section" style="display:none;">
-    <label>Is this a pre-sales or post-sales technical support request?</label>
-    <select id="q2">
-      <option value="">-- Select --</option>
-      <option value="Presales">Presales</option>
-      <option value="Postsales">Postsales</option>
-    </select>
-  </div>
-
-  <button id="nextBtn" style="display:none;">Next</button>
-</div>
-
-<!-- Intake Form -->
-<div id="formSection" style="display:none;">
-
-  <!-- Account Info -->
+  <!-- Landing -->
   <div class="card">
-    <h2>Account Information</h2>
 
-    <label>User Email:</label>
-    <input type="email" id="email" required>
+    <div class="section-title">Customer Success Engineering</div>
+    <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
 
-    <label>Primary Microsoft Contact:</label>
-    <input type="text" id="contact">
-
-    <label>Account Name:</label>
-    <input type="text" id="accountName">
-
-    <label>Country:</label>
-    <input type="text" id="country">
-
-    <label>Region:</label>
-    <input type="text" id="region">
-
-    <label>Source Platform:</label>
-    <input type="text" id="source">
-
-    <label>Target Platform:</label>
-    <input type="text" id="target">
-
-    <label>Is this a S500 Customer:</label>
-    <select id="s500">
+    <label>Q1. Need help unblocking customer migration?</label>
+    <select id="q1">
       <option value="">-- Select --</option>
       <option value="Yes">Yes</option>
       <option value="No">No</option>
     </select>
+
+    <label>Q2. Pre-sales or Post-sales request?</label>
+    <select id="q2" class="hidden">
+      <option value="">-- Select --</option>
+      <option value="Presales">Presales</option>
+      <option value="Postsales">Postsales</option>
+    </select>
+
+    <button id="nextBtn" class="hidden">Next</button>
+
   </div>
 
-  <!-- Service Request -->
-  <div class="card">
-    <h2>Service Request Details</h2>
+  <!-- Form -->
+  <div id="formSection" class="hidden">
 
-    <label>Request Type:</label>
-    <input type="text" id="requestType">
+    <!-- Account Info -->
+    <div class="card">
+      <div class="section-title">Account Information</div>
 
-    <label>Description of Request:</label>
-    <textarea id="description"></textarea>
+      <div class="grid">
+        <div>
+          <label>Email</label>
+          <input type="email" id="email">
+        </div>
 
-    <label>Customer Scenario:</label>
-    <textarea id="scenario"></textarea>
+        <div>
+          <label>Primary Microsoft Contact</label>
+          <input type="text" id="contact">
+        </div>
+
+        <div>
+          <label>Account Name</label>
+          <input type="text" id="accountName">
+        </div>
+
+        <div>
+          <label>Country</label>
+          <input type="text" id="country">
+        </div>
+
+        <div>
+          <label>Region</label>
+          <input type="text" id="region">
+        </div>
+
+        <div>
+          <label>Source Platform</label>
+          <input type="text" id="source">
+        </div>
+
+        <div>
+          <label>Target Platform</label>
+          <input type="text" id="target">
+        </div>
+
+        <div>
+          <label>S500 Customer</label>
+          <select id="s500">
+            <option value="">-- Select --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Request Details -->
+    <div class="card">
+      <div class="section-title">Service Request Details</div>
+
+      <div class="grid">
+        <div>
+          <label>Request Type</label>
+          <input type="text" id="requestType">
+        </div>
+
+        <div style="grid-column: span 2;">
+          <label>Description</label>
+          <textarea id="description"></textarea>
+        </div>
+
+        <div style="grid-column: span 2;">
+          <label>Customer Scenario</label>
+          <textarea id="scenario"></textarea>
+        </div>
+      </div>
+
+      <button id="submitBtn">Submit</button>
+    </div>
+
   </div>
 
-  <button id="submitBtn">Submit</button>
 </div>
 
 <script>
   const q1 = document.getElementById("q1");
-  const q2Section = document.getElementById("q2Section");
+  const q2 = document.getElementById("q2");
   const nextBtn = document.getElementById("nextBtn");
   const formSection = document.getElementById("formSection");
 
+  // Show Q2 after Q1
   q1.addEventListener("change", function () {
-    if (this.value === "Yes") {
-      nextBtn.style.display = "inline";
-      q2Section.style.display = "none";
-    } else if (this.value === "No") {
-      nextBtn.style.display = "none";
-      q2Section.style.display = "block";
+    if (this.value !== "") {
+      q2.classList.remove("hidden");
+    }
+    nextBtn.classList.add("hidden");
+    formSection.classList.add("hidden");
+  });
+
+  // Enable Next only when both selected
+  q2.addEventListener("change", function () {
+    if (q1.value && q2.value) {
+      nextBtn.classList.remove("hidden");
     } else {
-      nextBtn.style.display = "none";
-      q2Section.style.display = "none";
+      nextBtn.classList.add("hidden");
     }
   });
 
   nextBtn.addEventListener("click", function () {
-    formSection.style.display = "block";
-    window.scrollTo(0, document.body.scrollHeight);
+    formSection.classList.remove("hidden");
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   });
 
   document.getElementById("submitBtn").addEventListener("click", async () => {
+
+    const payload = {
+      q1: q1.value,
+      q2: q2.value,
+      email: document.getElementById("email").value,
+      contact: document.getElementById("contact").value,
+      accountName: document.getElementById("accountName").value,
+      country: document.getElementById("country").value,
+      region: document.getElementById("region").value,
+      source: document.getElementById("source").value,
+      target: document.getElementById("target").value,
+      s500: document.getElementById("s500").value,
+      requestType: document.getElementById("requestType").value,
+      description: document.getElementById("description").value,
+      scenario: document.getElementById("scenario").value
+    };
+
+    if (!payload.email) {
+      alert("Email is required");
+      return;
+    }
+
     await fetch("/api/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        email: document.getElementById("email").value,
-        contact: document.getElementById("contact").value,
-        accountName: document.getElementById("accountName").value,
-        country: document.getElementById("country").value,
-        region: document.getElementById("region").value,
-        source: document.getElementById("source").value,
-        target: document.getElementById("target").value,
-        s500: document.getElementById("s500").value,
-        requestType: document.getElementById("requestType").value,
-        description: document.getElementById("description").value,
-        scenario: document.getElementById("scenario").value
-      })
+      body: JSON.stringify(payload)
     });
 
     alert("Form submitted successfully!");
