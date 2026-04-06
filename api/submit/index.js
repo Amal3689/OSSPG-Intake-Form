@@ -16,7 +16,7 @@ module.exports = async function (context, req) {
 
         // 🧠 Connect to Azure Table Storage
         const tableClient = TableClient.fromConnectionString(
-            process.env.AzureWebJobsStorage,
+            process.env.Azuretable,
             "requests"
         );
 
