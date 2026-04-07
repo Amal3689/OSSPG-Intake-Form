@@ -13,53 +13,74 @@
 
     h1 {
       color: #0078d4;
+      margin-bottom: 20px;
     }
 
     .card {
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 25px;
+      border-radius: 12px;
       width: 520px;
-      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      color: #0078d4;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 8px;
-      margin-top: 5px;
+      padding: 10px;
+      margin-top: 6px;
       margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
     }
 
     button {
-      background: #0078d4;
+      background-color: #0078d4;
       color: white;
-      padding: 10px;
       border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #005fa3;
     }
   </style>
-</head>
 
+</head>
 <body>
 
 <h1>Submit a Request</h1>
 
+<!-- Landing Section -->
 <div class="card">
 
   <h3>Customer Success Engineering</h3>
   <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
 
-  <label>Do you need assistance for unblocking migration?</label>
+  <label>Do you need assistance for unblocking customer migration to Azure PostgreSQL?</label>
   <select id="q1">
-    <option value="">--Select--</option>
+    <option value="">-- Select --</option>
     <option value="Yes">Yes</option>
     <option value="No">No</option>
   </select>
 
   <div id="q2Section" style="display:none;">
-    <label>Presales or Postsales?</label>
+    <label>Is this a pre-sales or post-sales technical support request for Azure PostgreSQL?</label>
     <select id="q2">
-      <option value="">--Select--</option>
+      <option value="">-- Select --</option>
       <option value="Presales">Presales</option>
       <option value="Postsales">Postsales</option>
     </select>
@@ -68,65 +89,109 @@
   <button id="nextBtn" style="display:none;">Next</button>
 </div>
 
-<div id="formSection" style="display:none;" class="card">
+<!-- Intake Form -->
+<div id="formSection" style="display:none;">
 
-  <h2>Account Information</h2>
+  <!-- Account Information -->
+  <div class="card">
+    <h2>Account Information</h2>
 
-  <input type="email" id="email" placeholder="User Email">
-  <input type="text" id="accountName" placeholder="Account Name">
-  <input type="text" id="country" placeholder="Country">
+    <label>User Email:</label>
+    <input type="email" id="email" required>
 
-  <h2>Service Request</h2>
+    <label>Primary Microsoft Contact:</label>
+    <input type="text" id="contact">
 
-  <input type="text" id="requestType" placeholder="Request Type">
-  <textarea id="description" placeholder="Description"></textarea>
+    <label>Account Name:</label>
+    <input type="text" id="accountName">
+
+    <label>Country:</label>
+    <input type="text" id="country">
+
+    <label>Region:</label>
+    <input type="text" id="region">
+
+    <label>Source Platform:</label>
+    <input type="text" id="source">
+
+    <label>Target Platform:</label>
+    <input type="text" id="target">
+
+    <label>Is this a S500 Customer:</label>
+    <select id="s500">
+      <option value="">-- Select --</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+    </select>
+  </div>
+
+  <!-- Service Request Details -->
+  <div class="card">
+    <h2>Service Request Details</h2>
+
+    <label>Request Type:</label>
+    <input type="text" id="requestType">
+
+    <label>Description of Request:</label>
+    <textarea id="description"></textarea>
+
+    <label>Customer Scenario:</label>
+    <textarea id="scenario"></textarea>
+  </div>
 
   <button id="submitBtn">Submit</button>
 </div>
 
 <script>
+  const q1 = document.getElementById("q1");
+  const q2Section = document.getElementById("q2Section");
+  const nextBtn = document.getElementById("nextBtn");
+  const formSection = document.getElementById("formSection");
 
-const q1 = document.getElementById("q1");
-const q2Section = document.getElementById("q2Section");
-const nextBtn = document.getElementById("nextBtn");
-const formSection = document.getElementById("formSection");
-
-q1.addEventListener("change", function () {
-  if (this.value === "Yes") {
-    nextBtn.style.display = "inline";
-    q2Section.style.display = "none";
-  } else if (this.value === "No") {
-    nextBtn.style.display = "none";
-    q2Section.style.display = "block";
-  }
-});
-
-nextBtn.addEventListener("click", function () {
-  formSection.style.display = "block";
-});
-
-document.getElementById("submitBtn").addEventListener("click", async () => {
-
-  const data = {
-    email: document.getElementById("email").value,
-    accountName: document.getElementById("accountName").value,
-    country: document.getElementById("country").value,
-    requestType: document.getElementById("requestType").value,
-    description: document.getElementById("description").value
-  };
-
-  console.log("Submitting:", data);
-
-  const res = await fetch("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+  // Handle Q1 logic
+  q1.addEventListener("change", function () {
+    if (this.value === "Yes") {
+      nextBtn.style.display = "inline";
+      q2Section.style.display = "none";
+    } else if (this.value === "No") {
+      nextBtn.style.display = "none";
+      q2Section.style.display = "block";
+    } else {
+      nextBtn.style.display = "none";
+      q2Section.style.display = "none";
+    }
   });
 
-  const text = await res.text();
-  alert(text);
-});
+  // Show form on Next
+  nextBtn.addEventListener("click", function () {
+    formSection.style.display = "block";
+    window.scrollTo(0, document.body.scrollHeight);
+  });
 
+  // Submit form
+  document.getElementById("submitBtn").addEventListener("click", async () => {
+    await fetch("/api/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: document.getElementById("email").value,
+        contact: document.getElementById("contact").value,
+        accountName: document.getElementById("accountName").value,
+        country: document.getElementById("country").value,
+        region: document.getElementById("region").value,
+        source: document.getElementById("source").value,
+        target: document.getElementById("target").value,
+        s500: document.getElementById("s500").value,
+        requestType: document.getElementById("requestType").value,
+        description: document.getElementById("description").value,
+        scenario: document.getElementById("scenario").value
+      })
+    });
+
+    alert("Form submitted successfully!");
+  });
 </script>
 
 </body>
