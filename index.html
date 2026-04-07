@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Azure PostgreSQL CSE Request</title>
+  <title>CSE Engagement Request</title>
 
   <style>
     body {
-      font-family: Arial;
+      font-family: Segoe UI, Arial;
       background-color: #f4f6f8;
       margin: 0;
-      height: 100vh;
+      padding: 40px;
       display: flex;
       justify-content: center;
-      align-items: center;
     }
 
     .container {
-      width: 550px;
+      width: 750px;
     }
 
     h1 {
@@ -24,11 +23,42 @@
       margin-bottom: 20px;
     }
 
+    /* Stepper */
+    .stepper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .step {
+      text-align: center;
+      flex: 1;
+      font-size: 14px;
+      color: #999;
+    }
+
+    .step.active {
+      color: #0078d4;
+      font-weight: bold;
+    }
+
+    .step::before {
+      content: "●";
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    /* Card */
     .card {
       background: white;
-      padding: 25px;
+      padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 500;
     }
 
     input, select, textarea {
@@ -40,6 +70,15 @@
       border: 1px solid #ccc;
     }
 
+    textarea {
+      height: 80px;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
     button {
       background-color: #0078d4;
       color: white;
@@ -47,47 +86,91 @@
       padding: 10px 18px;
       border-radius: 6px;
       cursor: pointer;
-      width: 100%;
+    }
+
+    button.secondary {
+      background-color: #ccc;
+      color: black;
     }
 
     button:hover {
-      background-color: #005fa3;
+      opacity: 0.9;
     }
-  </style>
 
+  </style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <h1>Submit a Request</h1>
+  <h1>CSE Engagement Request</h1>
 
-  <div class="card">
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step active" id="stepLabel1">Qualification</div>
+    <div class="step" id="stepLabel2">Details</div>
+    <div class="step" id="stepLabel3">Review</div>
+  </div>
 
-    <h3>Customer Success Engineering</h3>
-    <p><b>Azure PostgreSQL CSE Engagement Request</b></p>
+  <!-- STEP 1 -->
+  <div class="card" id="step1">
 
-    <!-- Q1 -->
-    <label>Do you need assistance for unblocking customer migration to Azure PostgreSQL?</label>
+    <label>Do you need assistance for migration?</label>
     <select id="q1">
       <option value="">-- Select --</option>
-      <option value="Yes">Yes</option>
-      <option value="No">No</option>
+      <option>Yes</option>
+      <option>No</option>
     </select>
 
-    <!-- Q2 -->
     <div id="q2Section" style="display:none;">
-      <label>Is this a pre-sales or post-sales technical support request?</label>
+      <label>Presales or Postsales?</label>
       <select id="q2">
         <option value="">-- Select --</option>
-        <option value="Presales">Presales</option>
-        <option value="Postsales">Postsales</option>
+        <option>Presales</option>
+        <option>Postsales</option>
       </select>
     </div>
 
-    <!-- Next Button -->
-    <button id="nextBtn" style="display:none;">Next</button>
+    <div class="button-container">
+      <div></div>
+      <button id="next1" style="display:none;">Next</button>
+    </div>
+
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card" id="step2" style="display:none;">
+
+    <h3>Account Information</h3>
+
+    <input id="email" placeholder="Email">
+    <input id="accountName" placeholder="Account Name">
+    <input id="country" placeholder="Country">
+
+    <h3>Request Details</h3>
+
+    <input id="requestType" placeholder="Request Type">
+    <textarea id="description" placeholder="Description"></textarea>
+
+    <div class="button-container">
+      <button class="secondary" id="back1">Back</button>
+      <button id="next2">Next</button>
+    </div>
+
+  </div>
+
+  <!-- STEP 3 (Review) -->
+  <div class="card" id="step3" style="display:none;">
+
+    <h3>Review Your Request</h3>
+
+    <div id="reviewData"></div>
+
+    <div class="button-container">
+      <button class="secondary" id="back2">Back</button>
+      <button id="submitBtn">Submit</button>
+    </div>
 
   </div>
 
@@ -96,39 +179,80 @@
 <script>
 
 const q1 = document.getElementById("q1");
+const q2 = document.getElementById("q2");
 const q2Section = document.getElementById("q2Section");
-const nextBtn = document.getElementById("nextBtn");
+const next1 = document.getElementById("next1");
 
-// Q1 Logic
-q1.addEventListener("change", function () {
-
-  if (this.value === "Yes") {
-    q2Section.style.display = "none";
-    nextBtn.style.display = "block";   // ✅ Show Next
-  } 
-  
-  else if (this.value === "No") {
+// Step 1 logic
+q1.addEventListener("change", () => {
+  if (q1.value !== "") {
     q2Section.style.display = "block";
-    nextBtn.style.display = "block";   // ✅ Show Next anyway
-  } 
-  
-  else {
-    q2Section.style.display = "none";
-    nextBtn.style.display = "none";
+    next1.style.display = "none";
   }
-
 });
 
-// Optional: Ensure Q2 selected before Next (only when visible)
-nextBtn.addEventListener("click", function () {
-
-  if (q1.value === "No" && document.getElementById("q2").value === "") {
-    alert("Please select Presales or Postsales");
-    return;
+q2.addEventListener("change", () => {
+  if (q2.value !== "") {
+    next1.style.display = "inline-block";
   }
-
-  alert("Proceeding to Intake Form..."); // replace later with form navigation
 });
+
+// Navigation
+next1.onclick = () => {
+  showStep(2);
+};
+
+document.getElementById("back1").onclick = () => showStep(1);
+document.getElementById("back2").onclick = () => showStep(2);
+
+document.getElementById("next2").onclick = () => {
+
+  const review = `
+    <b>Q1:</b> ${q1.value}<br>
+    <b>Q2:</b> ${q2.value}<br>
+    <b>Email:</b> ${email.value}<br>
+    <b>Account:</b> ${accountName.value}<br>
+    <b>Country:</b> ${country.value}<br>
+    <b>Request Type:</b> ${requestType.value}<br>
+  `;
+
+  document.getElementById("reviewData").innerHTML = review;
+
+  showStep(3);
+};
+
+// Submit
+document.getElementById("submitBtn").onclick = async () => {
+
+  const data = {
+    q1: q1.value,
+    q2: q2.value,
+    email: email.value,
+    accountName: accountName.value,
+    country: country.value,
+    requestType: requestType.value,
+    description: description.value
+  };
+
+  await fetch("/api/submit", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  alert("Submitted successfully!");
+};
+
+// Step control
+function showStep(step) {
+  document.getElementById("step1").style.display = step === 1 ? "block" : "none";
+  document.getElementById("step2").style.display = step === 2 ? "block" : "none";
+  document.getElementById("step3").style.display = step === 3 ? "block" : "none";
+
+  document.getElementById("stepLabel1").classList.toggle("active", step === 1);
+  document.getElementById("stepLabel2").classList.toggle("active", step === 2);
+  document.getElementById("stepLabel3").classList.toggle("active", step === 3);
+}
 
 </script>
 
